@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 
 import './App.css';
 import L from 'leaflet';
@@ -6,25 +6,64 @@ import L from 'leaflet';
 // Imports
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
+import {
+  Card,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  Button,
+} from 'reactstrap';
+
+// Functional Component
 function App() {
   let [position, setPosition] = useState({
     lat: 51.505,
     lng: -0.09,
     zoom: 2,
     userLocaton: false,
+    ipLocation: false,
   });
 
   useEffect(() => {
+    // Will run on component mount
     try {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        console.log(pos.coords);
-        setPosition({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          zoom: 13,
-          userLocaton: true,
-        });
-      });
+      // geolocation.getCurrentPosition accepts 2 params
+      // 1 function that takes in positon/location
+      // 2 another function that accepts an error
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          console.log(pos.coords);
+          setPosition({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            zoom: 13,
+            userLocaton: true,
+            ipLocation: false,
+          });
+        },
+        (error) => {
+          console.log(error.message + `\n... Locating via IP`);
+
+          try {
+            fetch('https://extreme-ip-lookup.com/json')
+              .then((res) => res.json())
+              .then((location) => {
+                setPosition({
+                  lat: location.lat,
+                  lng: location.lon,
+                  zoom: 13,
+                  userLocaton: false,
+                  ipLocation: true,
+                });
+              });
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -39,21 +78,40 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <Map center={position} zoom={position.zoom} className="map">
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {position.userLocaton === true ? (
-          <Marker position={position} icon={myIcon}>
-            <Popup>Your current location.</Popup>
-          </Marker>
-        ) : (
-          ''
-        )}
-      </Map>
-    </div>
+    <Fragment>
+      <div className="App">
+        <Map center={position} zoom={position.zoom} className="map">
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {position.userLocaton === true || position.ipLocation === true ? (
+            <Marker position={position} icon={myIcon}>
+              <Popup>
+                Your current location{' '}
+                {position.userLocaton === true
+                  ? `by permission`
+                  : `location by IP`}
+              </Popup>
+            </Marker>
+          ) : (
+            ''
+          )}
+        </Map>
+      </div>
+
+      <Card className="card-style">
+        <CardBody>
+          <CardTitle>Card title</CardTitle>
+          <CardSubtitle>Card subtitle</CardSubtitle>
+          <CardText>
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </CardText>
+          <Button>Button</Button>
+        </CardBody>
+      </Card>
+    </Fragment>
   );
 }
 
