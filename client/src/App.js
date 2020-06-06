@@ -105,7 +105,10 @@ function App() {
           <CardTitle>Card title</CardTitle>
           <CardSubtitle>Card subtitle</CardSubtitle>
           <CardText>
-            Some quick example text to build on the card title and make up the
+            Some quick example text to build on
+            <br />
+            the card title and make up the
+            <br />
             bulk of the card's content.
           </CardText>
           <Button>Button</Button>
