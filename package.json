@@ -1,0 +1,23 @@
+{
+  "name": "Travel-Log",
+  "version": "1.0.0",
+  "description": "An adventure web app to track all your travels.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkamran67/Travel-Log.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mkamran67/Travel-Log/issues"
+  },
+  "homepage": "https://github.com/mkamran67/Travel-Log#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
