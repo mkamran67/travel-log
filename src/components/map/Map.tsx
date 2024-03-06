@@ -4,7 +4,11 @@ import mapboxgl from "mapbox-gl";
 
 export default function Map() {
 
-  const token = 'pk.eyJ1IjoibWthbXJhbjk0IiwiYSI6ImNsdGVvbGZieTA4dXAycGxnM3JnOHp4b24ifQ.CculMs-rQGRgIdsOi8YiHQ'
+  const token = process.env.NEXT_PUBLIC_MAPBOX_API;
+
+  if (!token) {
+    throw new Error("Mapbox API token is not defined");
+  }
 
   mapboxgl.accessToken = token;
 
@@ -17,5 +21,9 @@ export default function Map() {
     });
   }, []);
 
-  return <div id="map" style={{ width: "100%", height: "100vh" }}></div>;
+  return (
+    <div className="top-0 left-0 fixed ml-72 z-0">
+      <div id="map" className="-z-10 w-screen h-screen" />
+    </div>
+  )
 }

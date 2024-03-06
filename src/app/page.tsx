@@ -1,6 +1,12 @@
 "use client";
 
+import Map from "@/components/map/Map";
+
 export default function Home() {
 
-  return <div id="map" style={{ width: "100%", height: "100vh" }}></div>;
+  return (
+    <div>
+      <Map />
+    </div>
+  )
 }
