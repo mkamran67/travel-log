@@ -11,8 +11,9 @@ import {
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import Search from '../Search'
+import Search from '../search/Search'
 import Avatar from './Avatar'
+import useSearchStore from '@/searchStore'
 
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -28,19 +29,21 @@ const teams = [
   { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
 ]
 
+
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Sidebar({ children }: Readonly<{ children: React.ReactNode; }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [search, setSearch] = useState('')
+  const referral = useRef<HTMLInputElement>(null);
+  const setQuery = useSearchStore((state) => state.setQuery)
+  const query = useSearchStore(state => state.query)
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
+    setQuery(e.target.value)
   }
-
-  const referral = useRef<HTMLInputElement>(null);
 
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (e) => {
@@ -53,6 +56,8 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
       }
     });
   }
+
+
 
   return (
     <>
@@ -246,7 +251,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
         </div>
         <div className='max-w-lg md:ml-72 shadow-md'>
           <div className='m-4'>
-            <Search referral={referral} value={search} inputChange={inputChange} />
+            <Search referral={referral} value={query} inputChange={inputChange} />
           </div>
         </div>
         <main className="py-10 lg:pl-72">

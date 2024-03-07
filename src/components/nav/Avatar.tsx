@@ -13,7 +13,7 @@ function Avatar({ imgSrc, desktopOnly }: Props) {
       <a href="#" className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-green-700">
         <UserCircleIcon className="h-8 w-8 rounded-full shadow-lg" />
         <span className="sr-only">Your profile</span>
-        <span aria-hidden="true">Tom Cook</span>
+        <span aria-hidden="true">Login</span>
       </a>
     )
   } else {
