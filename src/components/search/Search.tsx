@@ -1,15 +1,35 @@
-import { LegacyRef } from "react";
+import useDebounce from "@/hooks/debounce";
+import { SimplifiedFeature, parseSearchResults } from "@/utils/dataParser";
+import { LegacyRef, useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 
 type Props = {
-  value: string;
-  inputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   referral: LegacyRef<HTMLInputElement>
 };
 
-export default function Search({ value, inputChange, referral }: Props) {
+export default function Search({ referral }: Props) {
+
+  const [value, setValue] = useState("");
+  const [results, setResults] = useState<string[]>([])
+  const debounceValue = useDebounce(value, 1000);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setValue(e.target.value);
+  };
+
+  const { data, error, isLoading } = useSWR(debounceValue ? `https://api.mapbox.com/geocoding/v5/mapbox.places/${debounceValue}.json?proximity=ip&access_token=${process.env.NEXT_PUBLIC_MAPBOX_API}` : null, async (url) => {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  });
+
+  const listOfResults = parseSearchResults(data);
 
 
-
+  const handleClick = (liResult: SimplifiedFeature) => {
+    console.log(liResult);
+  };
 
   return (
     <div className="relative mx-auto md:mt-12 md:ml-6 shadow-lg z-50" id="search-bar">
@@ -19,10 +39,10 @@ export default function Search({ value, inputChange, referral }: Props) {
           value={value}
           type="text"
           name="search"
-          placeholder="Start your adventure..."
+          placeholder="Where are you going?"
           id="search"
           className="block w-full rounded-md border-0 py-2 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-          onChange={inputChange}
+          onChange={handleChange}
         />
         <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
           <kbd className="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-400">
@@ -32,10 +52,12 @@ export default function Search({ value, inputChange, referral }: Props) {
         <div>
         </div>
       </div>
-      <ul className="dropdown-content z-10 menu shadow-lg bg-white mt-2 rounded-md w-full">
-        <li className="hover:bg-green-200 rounded-sm text-gray-600 "><a>Item 1</a></li>
-        <li className="hover:bg-green-200 rounded-sm text-gray-600 "><a>Item 2</a></li>
-      </ul>
+      {listOfResults.length > 0 && (
+        <ul className="dropdown-content z-10 menu shadow-lg bg-white mt-2 rounded-md w-full">
+          {listOfResults.map((liResult, index) => (
+            <li onClick={() => handleClick(liResult)} key={liResult.placeName + index} className="hover:bg-green-200 rounded-sm text-gray-600 "><a>{liResult.placeName}</a></li>
+          ))}
+        </ul>)}
     </div>
   )
 }

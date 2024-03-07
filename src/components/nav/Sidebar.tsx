@@ -38,12 +38,6 @@ function classNames(...classes: string[]) {
 export default function Sidebar({ children }: Readonly<{ children: React.ReactNode; }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const referral = useRef<HTMLInputElement>(null);
-  const setQuery = useSearchStore((state) => state.setQuery)
-  const query = useSearchStore(state => state.query)
-
-  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-  }
 
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (e) => {
@@ -251,7 +245,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
         </div>
         <div className='max-w-lg md:ml-72 shadow-md'>
           <div className='m-4'>
-            <Search referral={referral} value={query} inputChange={inputChange} />
+            <Search referral={referral} />
           </div>
         </div>
         <main className="py-10 lg:pl-72">
