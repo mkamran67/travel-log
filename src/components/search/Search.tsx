@@ -10,7 +10,6 @@ type Props = {
 export default function Search({ referral }: Props) {
 
   const [value, setValue] = useState("");
-  const [results, setResults] = useState<string[]>([])
   const debounceValue = useDebounce(value, 1000);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,11 +28,13 @@ export default function Search({ referral }: Props) {
 
   const handleClick = (liResult: SimplifiedFeature) => {
     console.log(liResult);
+
   };
 
   return (
     <div className="relative mx-auto md:mt-12 md:ml-6 shadow-lg z-50" id="search-bar">
       <div className="relative mt-2 flex items-center">
+        <div className="absolute bottom-0 left-0 h-0.5 bg-blue-500 animate-slide-left-right"></div>
         <input
           ref={referral}
           value={value}
@@ -58,6 +59,7 @@ export default function Search({ referral }: Props) {
             <li onClick={() => handleClick(liResult)} key={liResult.placeName + index} className="hover:bg-green-200 rounded-sm text-gray-600 "><a>{liResult.placeName}</a></li>
           ))}
         </ul>)}
+
     </div>
   )
 }

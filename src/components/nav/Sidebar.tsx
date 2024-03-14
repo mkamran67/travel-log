@@ -13,7 +13,6 @@ import {
 } from '@heroicons/react/24/outline'
 import Search from '../search/Search'
 import Avatar from './Avatar'
-import useSearchStore from '@/searchStore'
 
 const navigation = [
   { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
