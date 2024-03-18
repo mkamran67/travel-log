@@ -28,14 +28,15 @@ export default function Search({ referral }: Props) {
 
   const handleClick = (liResult: SimplifiedFeature) => {
     console.log(liResult);
-
   };
 
   return (
     <div className="relative mx-auto md:mt-12 md:ml-6 shadow-lg z-50" id="search-bar">
       <div className="relative mt-2 flex items-center">
-        <div className="absolute bottom-0 left-0 h-0.5 bg-blue-500 animate-slide-left-right"></div>
+        {isLoading &&
+          <div className="absolute bottom-0 left-0 h-0.5 bg-blue-400 rounded-full animate-slide-to-side"></div>}
         <input
+          // disabled={isLoading}
           ref={referral}
           value={value}
           type="text"

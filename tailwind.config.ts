@@ -15,12 +15,12 @@ const config: Config = {
       },
       keyframes: {
         slide: {
-          '0%, 100%': { width: '0%' },
-          '50%': { width: '100%' },
+          "0%, 100%": { width: "40%", transform: "translateX(2%)" },
+          "50%": { width: "50%", transform: "translateX(98%)" },
         },
       },
       animation: {
-        'slide-left-right': 'slide 2s ease-in-out infinite',
+        'slide-to-side': 'slide 2s ease-in-out infinite',
       },
     },
   },

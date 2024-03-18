@@ -10,22 +10,25 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  PaperAirplaneIcon
 } from '@heroicons/react/24/outline'
 import Search from '../search/Search'
 import Avatar from './Avatar'
+import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Dashboard', href: '/', icon: HomeIcon, },
+  { name: 'Plan Adventure', href: '/planner', icon: PaperAirplaneIcon, },
+  { name: 'Projects', href: '#', icon: FolderIcon, },
+  { name: 'Calendar', href: '#', icon: CalendarIcon, },
+  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, },
+  { name: 'Reports', href: '#', icon: ChartPieIcon, },
 ]
 const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+  { id: 1, name: 'Heroicons', href: '#', initial: 'H', },
+  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', },
+  { id: 3, name: 'Workcation', href: '#', initial: 'W', },
 ]
 
 
@@ -37,6 +40,9 @@ function classNames(...classes: string[]) {
 export default function Sidebar({ children }: Readonly<{ children: React.ReactNode; }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const referral = useRef<HTMLInputElement>(null);
+
+  const currPath = usePathname();
+
 
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (e) => {
@@ -114,7 +120,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    item.current
+                                    item.href === currPath
                                       ? 'bg-green-700 text-white'
                                       : 'text-green-200 hover:text-white hover:bg-green-700',
                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -122,7 +128,9 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                                 >
                                   <item.icon
                                     className={classNames(
-                                      item.current ? 'text-white' : 'text-green-200 group-hover:text-white',
+                                      item.href === currPath
+                                        ? 'text-white'
+                                        : 'text-green-200 group-hover:text-white',
                                       'h-6 w-6 shrink-0'
                                     )}
                                     aria-hidden="true"
@@ -141,7 +149,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                                 <a
                                   href={team.href}
                                   className={classNames(
-                                    team.current
+                                    team.href === currPath
                                       ? 'bg-green-700 text-white'
                                       : 'text-green-200 hover:text-white hover:bg-green-700',
                                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -184,7 +192,8 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                         <a
                           href={item.href}
                           className={classNames(
-                            item.current
+                            item.href === currPath
+
                               ? 'bg-green-700 text-white'
                               : 'text-green-200 hover:text-white hover:bg-green-700',
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -192,7 +201,8 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                         >
                           <item.icon
                             className={classNames(
-                              item.current ? 'text-white' : 'text-green-200 group-hover:text-white',
+                              item.href === currPath
+                                ? 'text-white' : 'text-green-200 group-hover:text-white',
                               'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
@@ -211,7 +221,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
                         <a
                           href={team.href}
                           className={classNames(
-                            team.current
+                            team.href === currPath
                               ? 'bg-green-700 text-white'
                               : 'text-green-200 hover:text-white hover:bg-green-700',
                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
@@ -243,7 +253,7 @@ export default function Sidebar({ children }: Readonly<{ children: React.ReactNo
           <Avatar />
         </div>
         <div className='max-w-lg md:ml-72 shadow-md'>
-          <div className='m-4'>
+          <div className={currPath === "/" ? "m-4" : "hidden"}>
             <Search referral={referral} />
           </div>
         </div>
