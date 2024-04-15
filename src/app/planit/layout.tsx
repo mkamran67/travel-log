@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Loading from "../loading";
+import Sidebar from "@/components/nav/Sidebar";
 
 export const metadata: Metadata = {
   title: "Plan it!",
@@ -13,7 +15,7 @@ export default function Planit({
 }>) {
   return (
     <html lang="en" className="light h-full" data-theme="light">
-      <body className={inter.className + ' h-full'}>
+      <body>
         {/* <Sidebar> */}
         <Suspense fallback={<Loading />}>
           {children}
