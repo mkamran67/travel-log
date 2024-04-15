@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Sidebar from "@/components/nav/Sidebar";
 import { Suspense } from "react";
-import Loading from "./loading";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Home",
-  description: "Start your journey here",
+  title: "Plan it!",
+  description: "Let's get the planning started!",
 };
 
-export default function RootLayout({
+export default function Planit({
   children,
 }: Readonly<{
   children: React.ReactNode;

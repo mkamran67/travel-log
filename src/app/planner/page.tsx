@@ -4,22 +4,12 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 type Props = {}
 
 function Planner({ }: Props) {
-  /*
-This example requires some changes to your config:
- 
-```
-// tailwind.config.js
-module.exports = {
-  // ...
-  plugins: [
-    // ...
-    require('@tailwindcss/forms'),
-  ],
-}
-```
-*/
+
+
+
+
   return (
-    <form>
+    <form className='bg-white'>
       <div className="space-y-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
           <div>
